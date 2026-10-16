@@ -1,0 +1,145 @@
+---
+title: "Excel Sheet GGPLOT"
+author: "Brian Yandell"
+date: "2026-10-15"
+output: html_document
+---
+
+Document setup.
+Note `echo` is on and `message` and `warning` are off.
+This code chunk is *not* included by design.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Preliminaries
+
+Attach needed packages (libraries).
+While this can be done next to code,
+it helps to put it up front.
+An alternative approach is to use convention
+`[package]::[function]()`
+with `[package]` and `[function]` replaced by
+specific instance.
+
+```{r}
+library(readxl)
+library(dplyr)
+library(ggplot2)
+```
+
+## GGplot over Time
+
+### Analysis with Actual Data (evaluation turned off)
+
+The actual data are *not* included in this repo.
+That is, the folder `data/` is ignored (see [.gitignore](.gitignore))
+Further, the dataset name has been altered.
+Note also that evaluation is turned off (`eval=FALSE`);
+the code chunks can be run manually but will not
+evaluate upon **knit** of this document,
+but the code chunks will still appear.
+
+```{r eval=FALSE}
+calwt <- read_xlsx("data/clean_data.xlsx")
+```
+
+simplify names
+
+```{r eval=FALSE}
+calwt <- rename(calwt,
+  Date = "Date Time, GMT-07:00",
+  Temp = "Temp, °F"
+)
+```
+
+Summary. Always good to check data.
+
+```{r eval=FALSE}
+summary(calwt)
+```
+
+Plot over time of data with smooth curve (blue) and
+warning block (red with pink fill).
+
+```{r eval=FALSE}
+ggplot(calwt) +
+  aes(Date, Temp, ymin = 80, ymax = max(Temp), xmax = max(Date), xmin = min(Date)) +
+  geom_rect(col = "red", fill = "pink") +
+  geom_line() +
+  geom_smooth(col = "blue")
+```
+
+### Simulated Data
+
+Simulate data matching the empirical characteristics of `data/clean_data.xlsx`:
+
+- **Date range & frequency**: 30-minute intervals across June–September 2025.
+- **Multi-day & seasonal variation**: Oscillations over days and weeks reflecting weather fronts and summer peak (~60°F to ~87°F, mean ~74°F).
+- **Daily diurnal variation**: 24-hour cycle with minimums in early morning (~8–9 AM) and maximums in late afternoon (~5–6 PM).
+- **Autocorrelation & noise**: Smooth continuous variations using an AR(1) process with day-to-day swing variations.
+
+```{r simulate-data}
+set.seed(42)
+
+# Match time range and 30-minute sampling interval of the original data
+start_date <- as.POSIXct("2025-06-14 00:00:00")
+end_date <- as.POSIXct("2025-09-27 23:30:00")
+dates <- seq(from = start_date, to = end_date, by = "30 mins")
+n <- length(dates)
+
+# Temporal indicators
+hours_from_start <- as.numeric(difftime(dates, start_date, units = "hours"))
+days <- hours_from_start / 24
+hour_of_day <- as.numeric(format(dates, "%H")) + as.numeric(format(dates, "%M")) / 60
+
+# 1. Multi-day weather fronts and seasonal trend (mean ~74.3°F, range ~62-82°F)
+baseline_trend <- 74.3 +
+  3.8 * sin(2 * pi * (days - 20) / 110) + # broad summer seasonal arc
+  3.2 * sin(2 * pi * days / 12) +         # ~12-day weather cycles
+  1.8 * cos(2 * pi * days / 5)            # ~5-day short weather oscillations
+
+# 2. Daily diurnal cycle (trough ~8:30 AM, peak ~5:30 PM, daily amplitude ~3.7°F)
+diurnal_cycle <- 3.7 * sin(2 * pi * (hour_of_day - 13.5) / 24)
+
+# 3. Day-to-day variation in daily range
+day_index <- floor(days) + 1
+amplitude_mod <- rnorm(max(day_index), mean = 1, sd = 0.2)[day_index]
+
+# 4. Short-term autocorrelated noise (AR(1))
+noise <- as.numeric(arima.sim(model = list(ar = 0.92), n = n, sd = 0.35))
+
+# Assemble simulated data frame
+sim_calwt <- data.frame(
+  Date = dates,
+  Temp = round(baseline_trend + (diurnal_cycle * amplitude_mod) + noise, 2)
+)
+```
+
+### Analysis of Simulated Data (evaluation shown)
+
+Summary of simulated data:
+
+```{r sim-summary}
+summary(sim_calwt)
+```
+
+Plot of simulated data with the same styling.
+Plot over time of data with smooth curve (blue) and
+warning block (red with pink fill).
+
+```{r plot-sim}
+ggplot(sim_calwt) +
+  aes(Date, Temp, ymin = 80, ymax = max(Temp), xmax = max(Date), xmin = min(Date)) +
+  geom_rect(col = "red", fill = "pink") +
+  geom_line() +
+  geom_smooth(col = "blue")
+```
+

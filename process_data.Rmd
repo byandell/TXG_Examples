@@ -1,0 +1,124 @@
+---
+title: "Weekly Data Aggregation"
+author: "Antigravity"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## User Objective
+
+This RMarkdown script fulfills the following objectives:
+
+1. **Generate Data**: Create a CSV file with two columns: `datetime`
+(formatted as `mm/dd/yyyy hh:mm:ss`) and `value` (random integer
+between 1 and 100). The data covers exactly one week.
+
+2. **Process Data**: Read `weekly_data_r.csv`, aggregate data by
+18-hour intervals, and compute the mean value for each period.
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Generate Data
+
+We generate a sequence of times at 1-minute intervals for one week
+and assign random values between 1 and 100.
+
+```{r generate-data}
+# Start time: Consistent with previous steps
+start_time_gen <- as.POSIXct("2026-02-09 15:08:06")
+end_time_gen <- start_time_gen + as.difftime(1, units = "weeks")
+
+# Generate sequence of times at 1-minute intervals
+datetime_seq <- seq(
+    from = start_time_gen, to = end_time_gen,
+    by = "1 min"
+)
+
+# Generate random values between 1 and 100
+values <- sample(1:100, length(datetime_seq), replace = TRUE)
+
+# Create data frame
+df_generated <- data.frame(
+    datetime = format(datetime_seq, "%m/%d/%Y %H:%M:%S"),
+    value = values
+)
+
+# Write to CSV
+write.csv(df_generated, "weekly_data_r.csv",
+    row.names = FALSE, quote = FALSE
+)
+
+cat("File 'weekly_data_r.csv' generated successfully.\n")
+```
+
+## Load Data
+
+We read the weekly random data generated in the previous section.
+
+```{r load-data}
+df <- read.csv("weekly_data_r.csv")
+df$datetime <- as.POSIXct(df$datetime,
+    format = "%m/%d/%Y %H:%M:%S"
+)
+head(df)
+```
+
+## Aggregate Data
+
+We collapse the data into 18-hour intervals and calculate the average
+for each period using base R functions.
+
+```{r aggregate}
+# Create 18-hour intervals starting from the first timestamp
+start_time <- min(df$datetime)
+
+# Calculate hours from start
+df$hours_from_start <- as.numeric(difftime(df$datetime,
+    start_time,
+    units = "hours"
+))
+
+# Create 18-hour group indicator
+df$group <- df$hours_from_start %/% 18
+
+# Aggregate using base R aggregate()
+df_aggregated <- aggregate(value ~ group,
+    data = df,
+    FUN = function(x) {
+        c(
+            mean = mean(x),
+            n = length(x)
+        )
+    }
+)
+
+# Convert result to data frame with readable columns
+df_aggregated <- do.call(data.frame, df_aggregated)
+names(df_aggregated) <- c("group", "average_value", "n_observations")
+
+# Add interval start time
+df_aggregated$interval_start <- start_time +
+    (df_aggregated$group * 18 * 3600)
+
+# Reorder columns
+df_aggregated <- df_aggregated[, c(
+    "interval_start",
+    "average_value",
+    "n_observations"
+)]
+
+df_aggregated
+```
+
+## Summary
+
+The data has been collapsed from 1-minute intervals to 18-hour
+intervals.
+
+```{r summary}
+summary(df_aggregated$average_value)
+```
