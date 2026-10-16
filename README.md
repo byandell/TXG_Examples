@@ -22,11 +22,11 @@ which is associated with the
 
 ## Examples
 
-* [rplot.Rmd](rplot.html)
+* [rplot.Rmd](rplot.html) ([PDF](rplot.pdf))
   * Basic R plots and ggplot with x-y data
-* [ggplot_time.Rmd](ggplot_time.html)
+* [ggplot_time.Rmd](ggplot_time.html) ([PDF](ggplot_time.pdf))
   * ggplot with datetime axis
-* [process_data.Rmd](process_data.html)
+* [process_data.Rmd](process_data.html) ([PDF](process_data.pdf))
   * aggregate data over time using base R
 
 ## Dates and Times
