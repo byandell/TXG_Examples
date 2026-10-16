@@ -8,6 +8,11 @@ They have a collection of
 
 While some people shared data with me, the examples here use R datasets or
 generated data simulated to match the questions asked.
+Visitors may also be interesed in other examples and resources at my
+GitHub repo
+[byandell/esiil-stars](https://github.com/byandell/esiil-stars),
+which is associated with the
+[ESIIL Stars Program](https://esiil.org/esiil-stars).
 
 * [Examples](#examples)
 * [Dates and Times](#dates-and-times)
@@ -41,6 +46,7 @@ Here are some resources that may be helpful.
 
 ## General R and Coding Resources
 
+* [byandell/esiil-stars](https://github.com/byandell/esiil-stars)
 * [Document Digital Tools: R Language (Brian Yandell)](https://byandell.github.io/Documentation/R/)
 * [R for Data Science (Hadley Wickham et al)](https://r4ds.hadley.nz/)
 * [R Programming for Data Science (Roger Peng)](https://bookdown.org/rdpeng/rprogdatascience/)
