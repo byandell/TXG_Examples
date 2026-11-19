@@ -25,8 +25,15 @@ which is associated with the
 
 * [Intro to R (Karl Broman)](https://kbroman.org/datacarpentry_R_2016-08-23/01-intro-to-R.html)
 * [Document Tools](https://byandell.github.io/DocumentTools/)
-* [For Loops (Mark Nepf)](https://marknepf.github.io/code/r_vignettes/nepf_for_loops.html)
-
+  * [R Language](https://byandell.github.io/Documentation/R/)
+    * [Curate R Data](https://byandell.github.io/DocumentTools/R/curate/)
+* [Mark Nepf Code Vignettes](https://marknepf.github.io/code/)
+ ([source](https://github.com/MarkNepf/marknepf.github.io))
+  * [For Loops (Mark Nepf)](https://marknepf.github.io/code/r_vignettes/nepf_for_loops.html)
+    * see alternatives to `for` loops in
+    [Examples Using for and apply](https://byandell.github.io/DocumentTools/R/curate/applyExample.html) and
+    [Tidyverse Split-Apply-Combine Example](https://byandell.github.io/DocumentTools/R/curate/tidyverse.html)
+  
 ## Examples
 
 * [rplot.Rmd](rplot.html) ([PDF](rplot.pdf))
