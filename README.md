@@ -30,7 +30,7 @@ which is associated with the
 * [Mark Nepf Code Vignettes](https://marknepf.github.io/code/)
  ([source](https://github.com/MarkNepf/marknepf.github.io))
   * [For Loops (Mark Nepf)](https://marknepf.github.io/code/r_vignettes/nepf_for_loops.html)
-    * see alternatives to `for` loops in
+    * see more on alternatives to `for` loops in
     [Examples Using for and apply](https://byandell.github.io/DocumentTools/R/curate/applyExample.html) and
     [Tidyverse Split-Apply-Combine Example](https://byandell.github.io/DocumentTools/R/curate/tidyverse.html)
   
