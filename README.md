@@ -27,6 +27,8 @@ which is associated with the
 * [Document Tools](https://byandell.github.io/DocumentTools/)
   * [R Language](https://byandell.github.io/Documentation/R/)
     * [Curate R Data](https://byandell.github.io/DocumentTools/R/curate/)
+  * [Quarto](https://byandell.github.io/DocumentTools/quarto/)
+    * [Quarto Guide: Figures](https://quarto.org/docs/authoring/figures.html)
 * [Mark Nepf Code Vignettes](https://marknepf.github.io/code/)
  ([source](https://github.com/MarkNepf/marknepf.github.io))
   * [For Loops (Mark Nepf)](https://marknepf.github.io/code/r_vignettes/nepf_for_loops.html)
