@@ -14,11 +14,17 @@ GitHub repo
 which is associated with the
 [ESIIL Stars Program](https://esiil.org/esiil-stars).
 
+* [Intros and Useful Sites](#intros-and-useful-sites)
 * [Examples](#examples)
 * [Dates and Times](#dates-and-times)
 * [General R and Coding Resources](#general-r-and-coding-resources)
 
 ---
+
+## Intros and Useful sites
+
+* [Intro to R (Karl Broman)](https://kbroman.org/datacarpentry_R_2016-08-23/01-intro-to-R.html)
+* [Document Tools](https://byandell.github.io/DocumentTools/)
 
 ## Examples
 
