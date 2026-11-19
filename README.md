@@ -25,6 +25,7 @@ which is associated with the
 
 * [Intro to R (Karl Broman)](https://kbroman.org/datacarpentry_R_2016-08-23/01-intro-to-R.html)
 * [Document Tools](https://byandell.github.io/DocumentTools/)
+* [For Loops (Mark Nepf)](https://marknepf.github.io/code/r_vignettes/nepf_for_loops.html)
 
 ## Examples
 
